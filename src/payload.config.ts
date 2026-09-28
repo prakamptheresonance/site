@@ -10,7 +10,6 @@ import { Users } from './collections/Users'
 import { Media } from './collections/Media'
 import { Members } from './collections/Members'
 import { Contact } from './globals/Contact'
-import { imagekitPlugin } from './plugins/imagekit'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -40,14 +39,4 @@ export default buildConfig({
     },
   }),
   sharp,
-  plugins: [
-    imagekitPlugin({
-      collections: {
-        media: {
-          folder: '/media',
-          disablePayloadAccessControl: true,
-        },
-      },
-    }),
-  ],
 })

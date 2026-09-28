@@ -45,60 +45,41 @@ export function imagekitAdapter(options: ImageKitAdapterOptions = {}): Adapter {
       return folderPath ? `${urlEndpoint}/${folderPath}/${filename}` : `${urlEndpoint}/${filename}`
     }
 
-    const fields: Field[] = [
-      {
-        name: 'imagekit',
-        type: 'group',
-        label: 'ImageKit Details',
-        admin: {
-          readOnly: true,
-          position: 'sidebar',
-        },
-        fields: [
-          {
-            name: 'fileId',
-            type: 'text',
-            label: 'File ID',
-          },
-          {
-            name: 'url',
-            type: 'text',
-            label: 'ImageKit URL',
-          },
-          {
-            name: 'thumbnailUrl',
-            type: 'text',
-            label: 'Thumbnail URL',
-          },
-          {
-            name: 'filePath',
-            type: 'text',
-            label: 'File Path',
-          },
-        ],
-      },
-    ]
+    const getRelativePath = (filename: string, filePrefix?: string) => {
+      const folderPath = (filePrefix !== undefined ? filePrefix : cleanFolder).replace(
+        /^\/+|\/+$/g,
+        '',
+      )
+      return folderPath ? `/${folderPath}/${filename}` : `/${filename}`
+    }
+
+    const fields: Field[] = []
 
     return {
       name: 'imagekit',
       fields,
 
       generateURL: ({ filename, prefix: docPrefix }) => {
-        return getFullUrl(filename, docPrefix)
+        return getRelativePath(filename, docPrefix)
       },
 
       handleUpload: async ({ data, file, storageFilePath, req }) => {
-        if (!privateKey) {
-          req.payload.logger.warn(
-            '[ImageKit Storage] IMAGEKIT_SECRET is not configured. File stored locally in database only.',
-          )
-          return data
-        }
-
         const fileName = path.posix.basename(storageFilePath || file.filename)
         const folderDir = path.posix.dirname(storageFilePath || '')
         const targetFolder =
           folderDir && folderDir !== '.' ? `/${folderDir}` : `/${cleanFolder}`
+        const relativePath = getRelativePath(
+          fileName,
+          folderDir && folderDir !== '.' ? folderDir : cleanFolder,
+        )
+
+        if (!privateKey) {
+          req.payload.logger.warn(
+            '[ImageKit Storage] IMAGEKIT_SECRET is not configured. File stored locally in database only.',
+          )
+          data.url = relativePath
+          return data
+        }
 
         try {
           const formData = new FormData()
@@ -130,21 +111,7 @@ export function imagekitAdapter(options: ImageKitAdapterOptions = {}): Adapter {
             throw new Error(`ImageKit upload failed (${res.status}): ${errText}`)
           }
 
-          const result = (await res.json()) as {
-            fileId: string
-            url: string
-            thumbnailUrl?: string
-            filePath?: string
-          }
-
-          data.url = result.url || getFullUrl(fileName)
-          data.imagekit = {
-            fileId: result.fileId,
-            url: result.url,
-            thumbnailUrl: result.thumbnailUrl || result.url,
-            filePath: result.filePath || `${targetFolder}/${fileName}`,
-          }
-
+          data.url = relativePath
           return data
         } catch (error) {
           req.payload.logger.error({
@@ -155,35 +122,11 @@ export function imagekitAdapter(options: ImageKitAdapterOptions = {}): Adapter {
         }
       },
 
-      handleDelete: async ({ doc, filename, storageFilePath, req }) => {
+      handleDelete: async ({ filename, req }) => {
         if (!privateKey) return
-
-        const fileId = (doc as Record<string, any>)?.imagekit?.fileId
 
         const authHeader = `Basic ${Buffer.from(`${privateKey.trim()}:`).toString('base64')}`
 
-        if (fileId) {
-          try {
-            const res = await fetch(`https://api.imagekit.io/v1/files/${fileId}`, {
-              method: 'DELETE',
-              headers: { Authorization: authHeader },
-            })
-            if (!res.ok && res.status !== 404) {
-              const errText = await res.text()
-              req.payload.logger.error(
-                `[ImageKit Storage] Failed to delete fileId ${fileId}: ${errText}`,
-              )
-            }
-          } catch (err) {
-            req.payload.logger.error({
-              err,
-              msg: `[ImageKit Storage] Error deleting fileId ${fileId}`,
-            })
-          }
-          return
-        }
-
-        // Fallback: search file by filename
         try {
           const searchRes = await fetch(
             `https://api.imagekit.io/v1/files?name=${encodeURIComponent(filename)}`,
@@ -203,7 +146,7 @@ export function imagekitAdapter(options: ImageKitAdapterOptions = {}): Adapter {
         } catch (err) {
           req.payload.logger.error({
             err,
-            msg: `[ImageKit Storage] Error in fallback delete for ${filename}`,
+            msg: `[ImageKit Storage] Error deleting file ${filename}`,
           })
         }
       },

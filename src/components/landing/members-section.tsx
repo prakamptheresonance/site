@@ -1,7 +1,7 @@
 'use client'
 
 import React from 'react'
-import Image from 'next/image'
+import { Image } from '@imagekit/next'
 import { motion, type Variants } from 'framer-motion'
 import { FaUser } from 'react-icons/fa'
 import type { CleanMember } from '@/lib/data'

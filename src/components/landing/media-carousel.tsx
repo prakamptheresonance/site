@@ -1,15 +1,9 @@
 'use client'
 
 import React, { useState, useEffect, useRef, useCallback } from 'react'
-import Image from 'next/image'
+import { Image } from '@imagekit/next'
 import { motion, AnimatePresence } from 'framer-motion'
-import {
-  FaChevronLeft,
-  FaChevronRight,
-  FaPlay,
-  FaPause,
-  FaImages,
-} from 'react-icons/fa'
+import { FaChevronLeft, FaChevronRight, FaPlay, FaPause, FaImages } from 'react-icons/fa'
 import type { CleanMedia } from '@/lib/data'
 import { SectionHeading } from '@/components/ui/section-heading'
 import { SITE_CONFIG } from '@/data/site'
@@ -110,10 +104,7 @@ export function MediaCarousel({ media }: MediaCarouselProps) {
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Section Header with Controls */}
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-12">
-          <SectionHeading
-            headerData={SITE_CONFIG.sections.gallery}
-            className="mb-0"
-          />
+          <SectionHeading headerData={SITE_CONFIG.sections.gallery} className="mb-0" />
 
           {/* Autoplay & Navigation Controls */}
           <div className="flex items-center gap-3 mt-6 md:mt-0">
@@ -226,13 +217,7 @@ export function MediaCarousel({ media }: MediaCarouselProps) {
               }`}
               aria-label={`Jump to image ${idx + 1}`}
             >
-              <Image
-                src={item.url}
-                alt={item.alt}
-                fill
-                sizes="120px"
-                className="object-cover"
-              />
+              <Image src={item.url} alt={item.alt} fill sizes="120px" className="object-cover" />
             </motion.button>
           ))}
         </div>

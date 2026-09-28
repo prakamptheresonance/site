@@ -155,29 +155,13 @@ export interface User {
  */
 export interface Media {
   id: number;
-  caption?: string | null;
+  path: string;
   /**
-   * Recommended for accessibility and SEO
+   * Optional caption describing the image or performance
    */
-  alt?: string | null;
-  imagekit?: {
-    fileId?: string | null;
-    url?: string | null;
-    thumbnailUrl?: string | null;
-    filePath?: string | null;
-  };
-  _objectKey?: string | null;
+  caption?: string | null;
   updatedAt: string;
   createdAt: string;
-  url?: string | null;
-  thumbnailURL?: string | null;
-  filename?: string | null;
-  mimeType?: string | null;
-  filesize?: number | null;
-  width?: number | null;
-  height?: number | null;
-  focalX?: number | null;
-  focalY?: number | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -190,7 +174,7 @@ export interface Member {
    * e.g. Drummer, Octapaddist, Guitarist, Vocalist, Bassist
    */
   role: string;
-  image: number | Media;
+  image_path: string;
   socials?: {
     /**
      * Optional Facebook profile URL or handle
@@ -310,28 +294,10 @@ export interface UsersSelect<T extends boolean = true> {
  * via the `definition` "media_select".
  */
 export interface MediaSelect<T extends boolean = true> {
+  path?: T;
   caption?: T;
-  alt?: T;
-  imagekit?:
-    | T
-    | {
-        fileId?: T;
-        url?: T;
-        thumbnailUrl?: T;
-        filePath?: T;
-      };
-  _objectKey?: T;
   updatedAt?: T;
   createdAt?: T;
-  url?: T;
-  thumbnailURL?: T;
-  filename?: T;
-  mimeType?: T;
-  filesize?: T;
-  width?: T;
-  height?: T;
-  focalX?: T;
-  focalY?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -340,7 +306,7 @@ export interface MediaSelect<T extends boolean = true> {
 export interface MembersSelect<T extends boolean = true> {
   name?: T;
   role?: T;
-  image?: T;
+  image_path?: T;
   socials?:
     | T
     | {

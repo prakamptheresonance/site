@@ -11,17 +11,24 @@ export const Media: CollectionConfig = {
   },
   admin: {
     useAsTitle: 'caption',
-    defaultColumns: ['filename', 'caption', 'alt', 'mimeType', 'filesize', 'updatedAt'],
-  },
-  upload: {
-    disableLocalStorage: true,
-    mimeTypes: ['image/*'],
-    adminThumbnail: ({ doc }) => {
-      const ikDoc = doc?.imagekit as { thumbnailUrl?: string; url?: string } | undefined
-      return ikDoc?.thumbnailUrl || ikDoc?.url || (doc?.url as string) || ''
-    },
+    defaultColumns: ['caption', 'path', 'updatedAt'],
   },
   fields: [
+    {
+      name: 'path',
+      type: 'text',
+      required: true,
+      label: 'Image',
+      admin: {
+        components: {
+          Field: '@/components/admin/ImageUploadField#ImageUploadField',
+          Cell: '@/components/admin/ImageCell#ImageCell',
+        },
+        custom: {
+          folder: '/media',
+        },
+      },
+    },
     {
       name: 'caption',
       type: 'text',
@@ -29,18 +36,8 @@ export const Media: CollectionConfig = {
       required: false,
       admin: {
         placeholder: 'Optional caption for the image...',
-      },
-    },
-    {
-      name: 'alt',
-      type: 'text',
-      label: 'Alt Text',
-      required: false,
-      admin: {
-        description: 'Recommended for accessibility and SEO',
+        description: 'Optional caption describing the image or performance',
       },
     },
   ],
 }
-
-

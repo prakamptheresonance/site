@@ -39,7 +39,6 @@ export async function getMembersData(): Promise<CleanMember[]> {
     const result = await payload.find({
       collection: 'members',
       limit: 100,
-      depth: 1,
     })
 
     if (!result || !result.docs || result.docs.length === 0) {
@@ -47,12 +46,11 @@ export async function getMembersData(): Promise<CleanMember[]> {
     }
 
     return result.docs.map((doc: Member) => {
-      let imageUrl = ''
-
-      if (typeof doc.image === 'object' && doc.image !== null) {
-        const mediaObj = doc.image as Media
-        imageUrl = mediaObj.url || (mediaObj as Record<string, any>).imagekit?.url || ''
-      }
+      const imageUrl =
+        doc.image_path ||
+        (doc as any).url ||
+        (doc as any).imageUrl ||
+        ''
 
       return {
         id: doc.id,
@@ -74,7 +72,6 @@ export async function getMediaData(): Promise<CleanMedia[]> {
     const result = await payload.find({
       collection: 'media',
       limit: 50,
-      depth: 1,
     })
 
     if (!result || !result.docs || result.docs.length === 0) {
@@ -83,11 +80,15 @@ export async function getMediaData(): Promise<CleanMedia[]> {
 
     return result.docs
       .map((doc: Media) => {
-        const url = doc.url || (doc as Record<string, any>).imagekit?.url || ''
+        const url =
+          doc.path ||
+          (doc as any).url ||
+          (doc as any).imageUrl ||
+          ''
         return {
           id: doc.id,
           url,
-          alt: doc.alt || doc.caption || 'Prakamp Live Performance',
+          alt: doc.caption || 'Prakamp Live Performance',
           caption: doc.caption || undefined,
         }
       })

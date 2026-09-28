@@ -11,7 +11,7 @@ export const Members: CollectionConfig = {
   },
   admin: {
     useAsTitle: 'name',
-    defaultColumns: ['name', 'role', 'image', 'updatedAt'],
+    defaultColumns: ['name', 'role', 'image_path', 'updatedAt'],
   },
   fields: [
     {
@@ -37,11 +37,19 @@ export const Members: CollectionConfig = {
               },
             },
             {
-              name: 'image',
-              type: 'upload',
-              relationTo: 'media',
+              name: 'image_path',
+              type: 'text',
               required: true,
               label: 'Member Photo',
+              admin: {
+                components: {
+                  Field: '@/components/admin/ImageUploadField#ImageUploadField',
+                  Cell: '@/components/admin/ImageCell#ImageCell',
+                },
+                custom: {
+                  folder: '/media/member',
+                },
+              },
             },
           ],
         },

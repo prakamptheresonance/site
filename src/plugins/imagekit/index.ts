@@ -53,7 +53,7 @@ export const imagekitPlugin = (options: ImageKitPluginOptions = {}): Plugin => {
   const collectionsConfig: Record<string, any> = {}
 
   for (const [slug, collOpt] of Object.entries(collectionsOptions)) {
-    const optObj = typeof collOpt === 'object' && collOpt !== null ? collOpt : {}
+    const optObj: Record<string, any> = typeof collOpt === 'object' && collOpt !== null ? collOpt : {}
     const folder = optObj.folder || `/${slug}`
 
     collectionsConfig[slug] = {
