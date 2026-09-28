@@ -91,9 +91,11 @@ export interface Config {
   fallbackLocale: null;
   globals: {
     contact: Contact;
+    'site-settings': SiteSetting;
   };
   globalsSelect: {
     contact: ContactSelect<false> | ContactSelect<true>;
+    'site-settings': SiteSettingsSelect<false> | SiteSettingsSelect<true>;
   };
   locale: null;
   widgets: {
@@ -389,6 +391,45 @@ export interface Contact {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "site-settings".
+ */
+export interface SiteSetting {
+  id: number;
+  /**
+   * Main title tag used in search engines and browser tabs
+   */
+  title: string;
+  /**
+   * Brief summary of your band and site shown in search engine results
+   */
+  description: string;
+  /**
+   * Comma-separated keywords for search engine indexing
+   */
+  keywords?: string | null;
+  brandName?: string | null;
+  /**
+   * Image preview displayed when your link is shared on Facebook, WhatsApp, Twitter, etc.
+   */
+  ogImage?: string | null;
+  /**
+   * Optional customized title specifically for social share cards
+   */
+  ogTitle?: string | null;
+  /**
+   * Optional customized description specifically for social share cards
+   */
+  ogDescription?: string | null;
+  /**
+   * Twitter @username used for twitter:site and twitter:creator metadata
+   */
+  twitterHandle?: string | null;
+  twitterCard?: ('summary_large_image' | 'summary') | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "contact_select".
  */
 export interface ContactSelect<T extends boolean = true> {
@@ -402,6 +443,24 @@ export interface ContactSelect<T extends boolean = true> {
   facebook?: T;
   instagram?: T;
   youtube?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "site-settings_select".
+ */
+export interface SiteSettingsSelect<T extends boolean = true> {
+  title?: T;
+  description?: T;
+  keywords?: T;
+  brandName?: T;
+  ogImage?: T;
+  ogTitle?: T;
+  ogDescription?: T;
+  twitterHandle?: T;
+  twitterCard?: T;
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;

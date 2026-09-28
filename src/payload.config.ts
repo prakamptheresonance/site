@@ -10,6 +10,7 @@ import { Users } from './collections/Users'
 import { Media } from './collections/Media'
 import { Members } from './collections/Members'
 import { Contact } from './globals/Contact'
+import { SiteSettings } from './globals/SiteSettings'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -22,7 +23,7 @@ export default buildConfig({
     },
   },
   collections: [Users, Media, Members],
-  globals: [Contact],
+  globals: [Contact, SiteSettings],
   editor: lexicalEditor(),
   email: resendAdapter({
     apiKey: process.env.RESEND_API_KEY || '',
@@ -37,6 +38,7 @@ export default buildConfig({
     pool: {
       connectionString: process.env.DATABASE_URL || '',
     },
+    push: true,
   }),
   sharp,
 })

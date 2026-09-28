@@ -1,12 +1,13 @@
 import React from 'react'
 import type { Metadata } from 'next'
+import { headers } from 'next/headers'
 import { Cinzel, Outfit } from 'next/font/google'
 import './globals.css'
 import { ThemeProvider } from '@/providers/theme-provider'
 import { ImageKitProvider } from '@imagekit/next'
 import { Navbar } from '@/components/landing/navbar'
 import { Footer } from '@/components/landing/footer'
-import { getContactData } from '@/lib/data'
+import { getContactData, getSiteSettingsData } from '@/lib/data'
 
 const cinzel = Cinzel({
   subsets: ['latin'],
@@ -22,119 +23,83 @@ const outfit = Outfit({
   display: 'swap',
 })
 
-export const metadata: Metadata = {
-  title: 'PRAKAMP : THE RESONANCE | Live Music Band in Agartala, Tripura',
-  description:
-    'Prakamp : The Resonance is Agartala’s premier live music band. Delivering memorable performances across Classical, Bhajan, Sufi, Retro Hindi, Bollywood, Bengali Folk, and Live Orchestra. One Band. Every Genre. Every Occasion.',
-  keywords: [
-    'Prakamp The Resonance',
-    'Live Music Band Agartala',
-    'Music Band in Tripura',
-    'Bengali Folk and Baul Band',
-    'Bollywood Live Band Agartala',
-    'Puja Cultural Programme Band',
-    'Wedding Music Band Tripura',
-    'Devotional Bhajan Live Music',
-    'Saxophone and Orchestra Band Agartala',
-  ],
-  authors: [{ name: 'Prakamp : The Resonance' }],
-  creator: 'Prakamp : The Resonance',
-  publisher: 'Prakamp : The Resonance',
-  metadataBase: new URL(
-    process.env.NEXT_PUBLIC_SERVER_URL || 'https://prakamptheresonance.com',
-  ),
-  openGraph: {
-    title: 'PRAKAMP : THE RESONANCE | Live Music Band in Agartala',
-    description:
-      'One Band. Every Genre. Every Occasion. Delivering memorable live performances across Classical, Bollywood, Bengali Folk, Sufi, and Energetic Stage Shows.',
-    url: 'https://prakamptheresonance.com',
-    siteName: 'Prakamp : The Resonance',
-    locale: 'en_IN',
-    type: 'website',
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: 'PRAKAMP : THE RESONANCE | Live Music Band in Agartala',
-    description:
-      'One Band. Every Genre. Every Occasion. Delivering memorable live performances across Classical, Bollywood, Bengali Folk, Sufi, and Energetic Stage Shows.',
-  },
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: {
+export async function generateMetadata(): Promise<Metadata> {
+  const [siteSettings, headersList] = await Promise.all([
+    getSiteSettingsData(),
+    headers(),
+  ])
+
+  const host =
+    headersList.get('x-forwarded-host') || headersList.get('host') || ''
+  const proto = headersList.get('x-forwarded-proto') || 'https'
+  const siteUrl = host ? `${proto}://${host}` : process.env.NEXT_PUBLIC_SERVER_URL
+
+  const title = siteSettings.title
+  const description = siteSettings.description
+  const brandName = siteSettings.brandName
+  const keywords = siteSettings.keywords
+
+  const ogTitle = siteSettings.ogTitle || title
+  const ogDescription = siteSettings.ogDescription || description
+  const ogImages = siteSettings.ogImage
+    ? [
+        {
+          url: siteSettings.ogImage,
+          alt: brandName || ogTitle || '',
+        },
+      ]
+    : undefined
+
+  const twitterHandle = siteSettings.twitterHandle
+    ? siteSettings.twitterHandle.startsWith('@')
+      ? siteSettings.twitterHandle
+      : `@${siteSettings.twitterHandle}`
+    : undefined
+
+  const twitterCard = siteSettings.twitterCard || 'summary_large_image'
+
+  return {
+    title,
+    description,
+    keywords,
+    authors: brandName ? [{ name: brandName }] : undefined,
+    creator: brandName,
+    publisher: brandName,
+    metadataBase: siteUrl ? new URL(siteUrl) : undefined,
+    alternates: siteUrl
+      ? {
+          canonical: '/',
+        }
+      : undefined,
+    openGraph: {
+      title: ogTitle,
+      description: ogDescription,
+      url: siteUrl,
+      siteName: brandName,
+      locale: 'en_IN',
+      type: 'website',
+      images: ogImages,
+    },
+    twitter: {
+      card: twitterCard,
+      title: ogTitle,
+      description: ogDescription,
+      site: twitterHandle,
+      creator: twitterHandle,
+      images: siteSettings.ogImage ? [siteSettings.ogImage] : undefined,
+    },
+    robots: {
       index: true,
       follow: true,
-      'max-video-preview': -1,
-      'max-image-preview': 'large',
-      'max-snippet': -1,
-    },
-  },
-}
-
-// JSON-LD Structured Data Schema for MusicGroup & Local Entertainment Business
-const jsonLd = {
-  '@context': 'https://schema.org',
-  '@graph': [
-    {
-      '@type': 'MusicGroup',
-      '@id': 'https://prakamptheresonance.com/#musicgroup',
-      name: 'Prakamp : The Resonance',
-      alternateName: 'Prakamp Band',
-      description:
-        'A versatile live music band from Agartala, delivering memorable performances across Classical, Bhajan, Sufi, Retro Hindi, Bollywood, Bengali Folk, and Grand Live Orchestra.',
-      genre: [
-        'Classical & Semi-Classical',
-        'Bhajan & Devotional Music',
-        'Sufi & Ghazal',
-        'Retro Hindi (80s & 90s)',
-        'Bollywood & Contemporary',
-        'Bengali Folk & Baul',
-        'Orchestra & Instrumental',
-      ],
-      location: {
-        '@type': 'Place',
-        name: 'Agartala, West Tripura, Tripura, India',
-        address: {
-          '@type': 'PostalAddress',
-          addressLocality: 'Agartala',
-          addressRegion: 'Tripura',
-          postalCode: '799001',
-          addressCountry: 'IN',
-        },
+      googleBot: {
+        index: true,
+        follow: true,
+        'max-video-preview': -1,
+        'max-image-preview': 'large',
+        'max-snippet': -1,
       },
     },
-    {
-      '@type': 'EntertainmentBusiness',
-      '@id': 'https://prakamptheresonance.com/#business',
-      name: 'Prakamp : The Resonance Live Band',
-      image:
-        'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?q=80&w=1600&auto=format&fit=crop',
-      telephone: '+91 98765 43210',
-      address: {
-        '@type': 'PostalAddress',
-        addressLocality: 'Agartala',
-        addressRegion: 'Tripura',
-        addressCountry: 'IN',
-      },
-      priceRange: '₹₹₹',
-      openingHoursSpecification: [
-        {
-          '@type': 'OpeningHoursSpecification',
-          dayOfWeek: [
-            'Monday',
-            'Tuesday',
-            'Wednesday',
-            'Thursday',
-            'Friday',
-            'Saturday',
-            'Sunday',
-          ],
-          opens: '09:00',
-          closes: '23:00',
-        },
-      ],
-    },
-  ],
+  }
 }
 
 export default async function FrontendLayout(props: {
@@ -146,8 +111,69 @@ export default async function FrontendLayout(props: {
   occasions: React.ReactNode
   contact: React.ReactNode
 }) {
-  const { children, hero, expertise, gallery, members, occasions, contact } = props
-  const contactData = await getContactData()
+  const { children, hero, expertise, gallery, members, occasions, contact } =
+    props
+  const [contactData, siteSettings, headersList] = await Promise.all([
+    getContactData(),
+    getSiteSettingsData(),
+    headers(),
+  ])
+
+  const host =
+    headersList.get('x-forwarded-host') || headersList.get('host') || ''
+  const proto = headersList.get('x-forwarded-proto') || 'https'
+  const siteUrl = host ? `${proto}://${host}` : process.env.NEXT_PUBLIC_SERVER_URL
+  const brandName = siteSettings.brandName
+  const description = siteSettings.description
+
+  const sameAsSocials = [
+    contactData.facebook,
+    contactData.instagram,
+    contactData.youtube,
+  ].filter(Boolean) as string[]
+
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'MusicGroup',
+        ...(siteUrl ? { '@id': `${siteUrl}/#musicgroup`, url: siteUrl } : {}),
+        ...(brandName ? { name: brandName } : {}),
+        ...(description ? { description } : {}),
+        ...(sameAsSocials.length > 0 ? { sameAs: sameAsSocials } : {}),
+        ...(contactData.address
+          ? {
+              location: {
+                '@type': 'Place',
+                name: contactData.address,
+                address: {
+                  '@type': 'PostalAddress',
+                  streetAddress: contactData.address,
+                },
+              },
+            }
+          : {}),
+      },
+      {
+        '@type': 'EntertainmentBusiness',
+        ...(siteUrl ? { '@id': `${siteUrl}/#business`, url: siteUrl } : {}),
+        ...(brandName ? { name: `${brandName} Live Band` } : {}),
+        ...(siteSettings.ogImage ? { image: siteSettings.ogImage } : {}),
+        ...(contactData.primaryPhone
+          ? { telephone: contactData.primaryPhone }
+          : {}),
+        ...(contactData.address
+          ? {
+              address: {
+                '@type': 'PostalAddress',
+                streetAddress: contactData.address,
+              },
+            }
+          : {}),
+        priceRange: '₹₹₹',
+      },
+    ],
+  }
 
   return (
     <html

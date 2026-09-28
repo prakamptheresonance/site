@@ -1,6 +1,6 @@
 import configPromise from '@payload-config'
 import { getPayload } from 'payload'
-import type { Contact, Media, Member } from '@/payload-types'
+import type { Contact, Media, Member, SiteSetting } from '@/payload-types'
 
 export interface CleanMember {
   id: string | number
@@ -88,7 +88,7 @@ export async function getMediaData(): Promise<CleanMedia[]> {
         return {
           id: doc.id,
           url,
-          alt: doc.caption || 'Prakamp Live Performance',
+          alt: doc.caption || '',
           caption: doc.caption || undefined,
         }
       })
@@ -123,6 +123,67 @@ export async function getContactData(): Promise<CleanContact> {
     }
   } catch (error) {
     console.error('[Payload Data] Error loading contact global:', error)
+  }
+
+  return {}
+}
+
+export interface CleanSiteSettings {
+  title?: string
+  description?: string
+  keywords?: string[]
+  brandName?: string
+  ogImage?: string
+  ogTitle?: string
+  ogDescription?: string
+  twitterHandle?: string
+  twitterCard?: 'summary_large_image' | 'summary'
+}
+
+export async function getSiteSettingsData(): Promise<CleanSiteSettings> {
+  try {
+    const payload = await getPayload({ config: configPromise })
+    const result: SiteSetting = await payload.findGlobal({
+      slug: 'site-settings',
+      depth: 1,
+    })
+
+    if (result) {
+      const keywordsRaw = result.keywords || ''
+      const keywords = keywordsRaw
+        ? keywordsRaw
+            .split(',')
+            .map((k: string) => k.trim())
+            .filter(Boolean)
+        : undefined
+
+      let ogImageUrl = result.ogImage
+      if (ogImageUrl && !ogImageUrl.startsWith('http')) {
+        const endpoint =
+          process.env.NEXT_PUBLIC_IMAGEKIT_URL_ENDPOINT?.replace(/\/+$/, '') ||
+          ''
+        ogImageUrl = endpoint
+          ? `${endpoint}${ogImageUrl.startsWith('/') ? '' : '/'}${ogImageUrl}`
+          : ogImageUrl
+      }
+
+      return {
+        title: result.title || undefined,
+        description: result.description || undefined,
+        keywords,
+        brandName: result.brandName || undefined,
+        ogImage: ogImageUrl || undefined,
+        ogTitle: result.ogTitle || undefined,
+        ogDescription: result.ogDescription || undefined,
+        twitterHandle: result.twitterHandle || undefined,
+        twitterCard: (result.twitterCard as any) || undefined,
+      }
+    }
+  } catch (error: any) {
+    const errCode = error?.code || error?.cause?.code
+    if (errCode !== '42P01' && errCode !== '42703') {
+      console.error('[Payload Data] Error loading site-settings global:', error)
+    }
   }
 
   return {}
