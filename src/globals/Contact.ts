@@ -20,7 +20,6 @@ export const Contact: GlobalConfig = {
               name: 'primaryPhone',
               type: 'text',
               label: 'Primary Phone Number',
-              defaultValue: '+91 98765 43210',
               admin: {
                 placeholder: '+91 98765 43210',
                 description: 'Main phone number for inquiries and bookings',
@@ -70,7 +69,6 @@ export const Contact: GlobalConfig = {
               name: 'whatsappNumber',
               type: 'text',
               label: 'WhatsApp Phone Number',
-              defaultValue: '+91 98765 43210',
               admin: {
                 placeholder: '+91 98765 43210 or 919876543210',
                 description: 'Phone number linked to WhatsApp (with country code)',
