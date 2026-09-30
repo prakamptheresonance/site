@@ -1,4 +1,5 @@
 import type { CollectionConfig } from 'payload'
+import { slugField } from 'payload'
 
 export const Members: CollectionConfig = {
   slug: 'members',
@@ -11,9 +12,13 @@ export const Members: CollectionConfig = {
   },
   admin: {
     useAsTitle: 'name',
-    defaultColumns: ['name', 'role', 'image_path', 'updatedAt'],
+    defaultColumns: ['name', 'role', 'order', 'isActive', 'updatedAt'],
+  },
+  defaultPopulate: {
+    role: true,
   },
   fields: [
+    slugField({ useAsSlug: 'name' }),
     {
       type: 'tabs',
       tabs: [
@@ -28,12 +33,12 @@ export const Members: CollectionConfig = {
             },
             {
               name: 'role',
-              type: 'text',
+              type: 'relationship',
+              relationTo: 'member-roles',
               required: true,
-              label: 'Role',
+              label: 'Role / Specialization',
               admin: {
-                description: 'e.g. Drummer, Octapaddist, Guitarist, Vocalist, Bassist',
-                placeholder: 'e.g. Drummer',
+                description: 'Select the role/specialization for this member.',
               },
             },
             {
@@ -49,6 +54,15 @@ export const Members: CollectionConfig = {
                 custom: {
                   folder: '/media/member',
                 },
+              },
+            },
+            {
+              name: 'order',
+              type: 'number',
+              label: 'Display Order',
+              defaultValue: 0,
+              admin: {
+                description: 'Order of display on the website (e.g. 1, 2, 3...). Lower numbers appear first.',
               },
             },
           ],
@@ -78,6 +92,16 @@ export const Members: CollectionConfig = {
           ],
         },
       ],
+    },
+    {
+      name: 'isActive',
+      type: 'checkbox',
+      label: 'Active on Site',
+      defaultValue: true,
+      admin: {
+        position: 'sidebar',
+        description: 'Toggle visibility on the landing page.',
+      },
     },
   ],
 }

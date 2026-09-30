@@ -13,9 +13,10 @@ import { SocialButton } from '@/components/ui/social-button'
 
 interface ContactSectionProps {
   contact: CleanContact
+  subtitle?: string
 }
 
-export function ContactSection({ contact }: ContactSectionProps) {
+export function ContactSection({ contact, subtitle }: ContactSectionProps) {
   const socialLinks = getContactSocialLinks(contact)
   const waData = getWhatsAppBookingData(contact.whatsappNumber, contact.whatsappPrompt)
   const contactCards = getContactCardItems(contact)
@@ -34,7 +35,7 @@ export function ContactSection({ contact }: ContactSectionProps) {
       <div className="absolute top-1/4 left-1/4 w-[400px] h-[400px] bg-emerald-600/10 rounded-full blur-[150px] pointer-events-none" />
 
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <SectionHeading headerData={SITE_CONFIG.sections.contact} />
+        <SectionHeading headerData={SITE_CONFIG.sections.contact} subtitle={subtitle} />
 
         <div className="flex flex-col gap-6">
           {/* WhatsApp Direct Action Banner */}

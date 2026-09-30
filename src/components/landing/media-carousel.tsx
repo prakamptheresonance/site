@@ -10,9 +10,10 @@ import { SITE_CONFIG } from '@/data/site'
 
 interface MediaCarouselProps {
   media: CleanMedia[]
+  subtitle?: string
 }
 
-export function MediaCarousel({ media }: MediaCarouselProps) {
+export function MediaCarousel({ media, subtitle }: MediaCarouselProps) {
   const [currentIndex, setCurrentIndex] = useState(0)
   const [direction, setDirection] = useState(0)
   const [isPlaying, setIsPlaying] = useState(true)
@@ -104,7 +105,11 @@ export function MediaCarousel({ media }: MediaCarouselProps) {
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Section Header with Controls */}
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-12">
-          <SectionHeading headerData={SITE_CONFIG.sections.gallery} className="mb-0" />
+          <SectionHeading
+            headerData={SITE_CONFIG.sections.gallery}
+            subtitle={subtitle}
+            className="mb-0"
+          />
 
           {/* Autoplay & Navigation Controls */}
           <div className="flex items-center gap-3 mt-6 md:mt-0">
@@ -141,7 +146,7 @@ export function MediaCarousel({ media }: MediaCarouselProps) {
 
         {/* Main Featured Slide with AnimatePresence */}
         <div
-          className="relative w-full aspect-[16/9] sm:aspect-[21/9] rounded-3xl overflow-hidden glass-panel border border-neutral-800 shadow-2xl group"
+          className="relative w-full aspect-video rounded-3xl overflow-hidden glass-panel border border-neutral-800 shadow-2xl group"
           onTouchStart={handleTouchStart}
           onTouchMove={handleTouchMove}
           onTouchEnd={handleTouchEnd}
@@ -200,7 +205,7 @@ export function MediaCarousel({ media }: MediaCarouselProps) {
         </div>
 
         {/* Bottom Thumbnail Strip Navigator */}
-        <div className="mt-6 flex items-center justify-center gap-3 overflow-x-auto py-2">
+        <div className="mt-6 flex items-center sm:justify-center gap-3 overflow-x-auto py-2">
           {items.map((item, idx) => (
             <motion.button
               key={item.id}

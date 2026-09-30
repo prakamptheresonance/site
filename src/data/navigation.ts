@@ -21,3 +21,15 @@ export const FOOTER_NAV_LINKS: readonly NavItem[] = [
   { href: '#occasions', label: 'Occasions & Shows' },
   { href: '#contact', label: 'Bookings & Connect' },
 ] as const
+
+export function getFooterNavLinks(genreCount?: number): NavItem[] {
+  const genreLabel = genreCount && genreCount > 0 ? `${genreCount} Musical Genres` : 'Musical Genres'
+  return [
+    { href: '#about', label: 'About The Band' },
+    { href: '#expertise', label: genreLabel },
+    { href: '#gallery', label: 'Live Media Gallery' },
+    { href: '#members', label: 'Band Lineup & Artists' },
+    { href: '#occasions', label: 'Occasions & Shows' },
+    { href: '#contact', label: 'Bookings & Connect' },
+  ]
+}

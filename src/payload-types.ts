@@ -70,6 +70,9 @@ export interface Config {
     users: User;
     media: Media;
     members: Member;
+    genres: Genre;
+    occasions: Occasion;
+    'member-roles': MemberRole;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -80,6 +83,9 @@ export interface Config {
     users: UsersSelect<false> | UsersSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
     members: MembersSelect<false> | MembersSelect<true>;
+    genres: GenresSelect<false> | GenresSelect<true>;
+    occasions: OccasionsSelect<false> | OccasionsSelect<true>;
+    'member-roles': MemberRolesSelect<false> | MemberRolesSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -171,12 +177,21 @@ export interface Media {
  */
 export interface Member {
   id: number;
+  /**
+   * When enabled, the slug will auto-generate from the title field on save and autosave.
+   */
+  generateSlug?: boolean | null;
+  slug: string;
   name: string;
   /**
-   * e.g. Drummer, Octapaddist, Guitarist, Vocalist, Bassist
+   * Select the role/specialization for this member.
    */
-  role: string;
+  role: number | MemberRole;
   image_path: string;
+  /**
+   * Order of display on the website (e.g. 1, 2, 3...). Lower numbers appear first.
+   */
+  order?: number | null;
   socials?: {
     /**
      * Optional Facebook profile URL or handle
@@ -187,6 +202,131 @@ export interface Member {
      */
     instagram?: string | null;
   };
+  /**
+   * Toggle visibility on the landing page.
+   */
+  isActive?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "member-roles".
+ */
+export interface MemberRole {
+  id: number;
+  /**
+   * Name of the band member role or category.
+   */
+  title: string;
+  /**
+   * When enabled, the slug will auto-generate from the title field on save and autosave.
+   */
+  generateSlug?: boolean | null;
+  slug: string;
+  description?: string | null;
+  /**
+   * Display order priority (lower numbers appear first).
+   */
+  order?: number | null;
+  /**
+   * Enable or disable this role.
+   */
+  isActive?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "genres".
+ */
+export interface Genre {
+  id: number;
+  title: string;
+  /**
+   * When enabled, the slug will auto-generate from the title field on save and autosave.
+   */
+  generateSlug?: boolean | null;
+  slug: string;
+  /**
+   * Search and select an icon from the catalog.
+   */
+  icon: string;
+  /**
+   * Select an ambient glow preset for the genre card.
+   */
+  accent:
+    | 'from-amber-500/20 to-amber-700/10'
+    | 'from-orange-500/20 to-amber-700/10'
+    | 'from-emerald-500/20 to-teal-700/10'
+    | 'from-yellow-500/20 to-amber-600/10'
+    | 'from-purple-500/20 to-indigo-700/10'
+    | 'from-blue-500/20 to-cyan-700/10'
+    | 'from-amber-600/20 to-red-700/10'
+    | 'from-rose-500/20 to-pink-700/10'
+    | 'from-amber-400/25 to-yellow-600/10'
+    | 'from-pink-500/20 to-rose-700/10'
+    | 'from-red-500/25 to-amber-600/10'
+    | 'from-violet-500/20 to-purple-800/10'
+    | 'from-teal-500/20 to-cyan-800/10';
+  /**
+   * Order of display on the website (e.g. 1, 2, 3...). Lower numbers appear first.
+   */
+  order?: number | null;
+  /**
+   * Toggle visibility on the landing page.
+   */
+  isActive?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "occasions".
+ */
+export interface Occasion {
+  id: number;
+  title: string;
+  /**
+   * When enabled, the slug will auto-generate from the title field on save and autosave.
+   */
+  generateSlug?: boolean | null;
+  slug: string;
+  /**
+   * Search and select an occasion or performance icon.
+   */
+  icon: string;
+  /**
+   * Select an ambient glow preset for the occasion card.
+   */
+  accent:
+    | 'from-amber-500/20 to-amber-700/10'
+    | 'from-orange-500/20 to-amber-700/10'
+    | 'from-emerald-500/20 to-teal-700/10'
+    | 'from-yellow-500/20 to-amber-600/10'
+    | 'from-purple-500/20 to-indigo-700/10'
+    | 'from-blue-500/20 to-cyan-700/10'
+    | 'from-amber-600/20 to-red-700/10'
+    | 'from-rose-500/20 to-pink-700/10'
+    | 'from-amber-400/25 to-yellow-600/10'
+    | 'from-pink-500/20 to-rose-700/10'
+    | 'from-red-500/25 to-amber-600/10'
+    | 'from-violet-500/20 to-purple-800/10'
+    | 'from-teal-500/20 to-cyan-800/10';
+  bullets?:
+    | {
+        point: string;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Order of display on the website (e.g. 1, 2, 3...). Lower numbers appear first.
+   */
+  order?: number | null;
+  /**
+   * Toggle visibility on the landing page.
+   */
+  isActive?: boolean | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -225,6 +365,18 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'members';
         value: number | Member;
+      } | null)
+    | ({
+        relationTo: 'genres';
+        value: number | Genre;
+      } | null)
+    | ({
+        relationTo: 'occasions';
+        value: number | Occasion;
+      } | null)
+    | ({
+        relationTo: 'member-roles';
+        value: number | MemberRole;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -306,15 +458,69 @@ export interface MediaSelect<T extends boolean = true> {
  * via the `definition` "members_select".
  */
 export interface MembersSelect<T extends boolean = true> {
+  generateSlug?: T;
+  slug?: T;
   name?: T;
   role?: T;
   image_path?: T;
+  order?: T;
   socials?:
     | T
     | {
         facebook?: T;
         instagram?: T;
       };
+  isActive?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "genres_select".
+ */
+export interface GenresSelect<T extends boolean = true> {
+  title?: T;
+  generateSlug?: T;
+  slug?: T;
+  icon?: T;
+  accent?: T;
+  order?: T;
+  isActive?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "occasions_select".
+ */
+export interface OccasionsSelect<T extends boolean = true> {
+  title?: T;
+  generateSlug?: T;
+  slug?: T;
+  icon?: T;
+  accent?: T;
+  bullets?:
+    | T
+    | {
+        point?: T;
+        id?: T;
+      };
+  order?: T;
+  isActive?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "member-roles_select".
+ */
+export interface MemberRolesSelect<T extends boolean = true> {
+  title?: T;
+  generateSlug?: T;
+  slug?: T;
+  description?: T;
+  order?: T;
+  isActive?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -425,6 +631,34 @@ export interface SiteSetting {
    */
   twitterHandle?: string | null;
   twitterCard?: ('summary_large_image' | 'summary') | null;
+  /**
+   * Main introductory description displayed in the hero section below the band slogan.
+   */
+  heroDescription?: string | null;
+  /**
+   * Subtitle description displayed in Our Musical Expertise section.
+   */
+  genreDescription?: string | null;
+  /**
+   * Subtitle description displayed in Moments in Resonance (Gallery) section.
+   */
+  galleryDescription?: string | null;
+  /**
+   * Subtitle description displayed in Meet The Resonance (Members) section.
+   */
+  membersDescription?: string | null;
+  /**
+   * Subtitle description displayed in Music For Every Occasion section.
+   */
+  occasionsDescription?: string | null;
+  /**
+   * Subtitle description displayed in Let’s Connect (Contact) section.
+   */
+  contactDescription?: string | null;
+  /**
+   * Bio description displayed in the footer below the brand name.
+   */
+  footerDescription?: string | null;
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -461,6 +695,13 @@ export interface SiteSettingsSelect<T extends boolean = true> {
   ogDescription?: T;
   twitterHandle?: T;
   twitterCard?: T;
+  heroDescription?: T;
+  genreDescription?: T;
+  galleryDescription?: T;
+  membersDescription?: T;
+  occasionsDescription?: T;
+  contactDescription?: T;
+  footerDescription?: T;
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;

@@ -133,6 +133,95 @@ export const SiteSettings: GlobalConfig = {
             },
           ],
         },
+        {
+          label: 'Section Descriptions',
+          fields: [
+            {
+              name: 'heroDescription',
+              type: 'textarea',
+              label: 'Hero Section Description',
+              defaultValue:
+                'A versatile live music ensemble from Agartala, delivering memorable performances across genres, styles, and generations. Our talented musicians and vocalists adapt every performance to the mood, audience, and occasion.',
+              admin: {
+                description:
+                  'Main introductory description displayed in the hero section below the band slogan.',
+                placeholder: 'Enter hero section description...',
+              },
+            },
+            {
+              name: 'genreDescription',
+              type: 'textarea',
+              label: 'Genre / Expertise Section Description',
+              defaultValue:
+                'From devotional sanctity to thunderous stage rock, Prakamp adapts effortlessly to every musical dimension and listener generation.',
+              admin: {
+                description:
+                  'Subtitle description displayed in Our Musical Expertise section.',
+                placeholder: 'Enter musical expertise / genre description...',
+              },
+            },
+            {
+              name: 'galleryDescription',
+              type: 'textarea',
+              label: 'Gallery Section Description',
+              defaultValue:
+                'Glimpses of electrifying concerts, devotional Puja mornings, and celebrations across Tripura and beyond.',
+              admin: {
+                description:
+                  'Subtitle description displayed in Moments in Resonance (Gallery) section.',
+                placeholder: 'Enter gallery section description...',
+              },
+            },
+            {
+              name: 'membersDescription',
+              type: 'textarea',
+              label: 'Members Section Description',
+              defaultValue:
+                'The artists and instrumentalists who bring the sonic soul of Prakamp to life on stage.',
+              admin: {
+                description:
+                  'Subtitle description displayed in Meet The Resonance (Members) section.',
+                placeholder: 'Enter members section description...',
+              },
+            },
+            {
+              name: 'occasionsDescription',
+              type: 'textarea',
+              label: 'Occasions Section Description',
+              defaultValue:
+                'From devotional sanctity to corporate sophistication and high-octane stadium energy, our setlists are customized for your guests.',
+              admin: {
+                description:
+                  'Subtitle description displayed in Music For Every Occasion section.',
+                placeholder: 'Enter occasions section description...',
+              },
+            },
+            {
+              name: 'contactDescription',
+              type: 'textarea',
+              label: 'Contact Section Description',
+              defaultValue:
+                'Ready to bring the live resonance of Prakamp to your event? Reach out to us directly.',
+              admin: {
+                description:
+                  'Subtitle description displayed in Let’s Connect (Contact) section.',
+                placeholder: 'Enter contact section description...',
+              },
+            },
+            {
+              name: 'footerDescription',
+              type: 'textarea',
+              label: 'Footer Description / Bio',
+              defaultValue:
+                'Agartala’s premier live music band delivering unforgettable stage experiences across genres, styles, and generations. From sacred Puja melodies to electrifying festival rock.',
+              admin: {
+                description:
+                  'Bio description displayed in the footer below the brand name.',
+                placeholder: 'Enter footer bio description...',
+              },
+            },
+          ],
+        },
       ],
     },
   ],

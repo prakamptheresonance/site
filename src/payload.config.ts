@@ -9,6 +9,9 @@ import { resendAdapter } from '@payloadcms/email-resend'
 import { Users } from './collections/Users'
 import { Media } from './collections/Media'
 import { Members } from './collections/Members'
+import { Genres } from './collections/Genres'
+import { Occasions } from './collections/Occasions'
+import { MemberRoles } from './collections/MemberRoles'
 import { Contact } from './globals/Contact'
 import { SiteSettings } from './globals/SiteSettings'
 
@@ -21,8 +24,9 @@ export default buildConfig({
     importMap: {
       baseDir: path.resolve(dirname),
     },
+    suppressHydrationWarning: true,
   },
-  collections: [Users, Media, Members],
+  collections: [Users, Media, Members, Genres, Occasions, MemberRoles],
   globals: [Contact, SiteSettings],
   editor: lexicalEditor(),
   email: resendAdapter({

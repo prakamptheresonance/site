@@ -7,7 +7,7 @@ import { ThemeProvider } from '@/providers/theme-provider'
 import { ImageKitProvider } from '@imagekit/next'
 import { Navbar } from '@/components/landing/navbar'
 import { Footer } from '@/components/landing/footer'
-import { getContactData, getSiteSettingsData } from '@/lib/data'
+import { getContactData, getSiteSettingsData, getGenresData } from '@/lib/data'
 
 const cinzel = Cinzel({
   subsets: ['latin'],
@@ -113,10 +113,11 @@ export default async function FrontendLayout(props: {
 }) {
   const { children, hero, expertise, gallery, members, occasions, contact } =
     props
-  const [contactData, siteSettings, headersList] = await Promise.all([
+  const [contactData, siteSettings, headersList, genres] = await Promise.all([
     getContactData(),
     getSiteSettingsData(),
     headers(),
+    getGenresData(),
   ])
 
   const host =
@@ -209,7 +210,11 @@ export default async function FrontendLayout(props: {
                 {contact}
                 {children}
               </main>
-              <Footer contact={contactData} />
+              <Footer
+                contact={contactData}
+                genreCount={genres.length}
+                footerBio={siteSettings.footerDescription}
+              />
             </div>
           </ImageKitProvider>
         </ThemeProvider>

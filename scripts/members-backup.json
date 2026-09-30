@@ -1,0 +1,203 @@
+{
+  "timestamp": "2026-09-30T19:27:04.507Z",
+  "members": [
+    {
+      "id": 13,
+      "name": "Bivash Hrishidas",
+      "role": "Management",
+      "image_path": "/media/member/1000154612.jpg",
+      "socials": {
+        "facebook": null,
+        "instagram": null
+      },
+      "updatedAt": "2026-09-30T19:20:07.361Z",
+      "createdAt": "2026-09-28T19:04:12.220Z"
+    },
+    {
+      "id": 12,
+      "name": "Sarmistha Deb",
+      "role": "Vocalist",
+      "image_path": "/media/member/1000154616.jpg",
+      "socials": {
+        "facebook": "https://www.facebook.com/sarmistha.deb.98",
+        "instagram": null
+      },
+      "updatedAt": "2026-09-30T19:20:07.909Z",
+      "createdAt": "2026-09-28T19:03:20.682Z"
+    },
+    {
+      "id": 11,
+      "name": "Prasenjit Majumder ",
+      "role": "Vocalist",
+      "image_path": "/media/member/1000149693.jpg",
+      "socials": {
+        "facebook": null,
+        "instagram": null
+      },
+      "updatedAt": "2026-09-30T19:20:08.457Z",
+      "createdAt": "2026-09-28T19:02:19.578Z"
+    },
+    {
+      "id": 10,
+      "name": "Ashim Biswas",
+      "role": "Vocalist",
+      "image_path": "/media/member/1000149696.jpg",
+      "socials": {
+        "facebook": null,
+        "instagram": null
+      },
+      "updatedAt": "2026-09-30T19:20:08.997Z",
+      "createdAt": "2026-09-28T19:01:22.872Z"
+    },
+    {
+      "id": 9,
+      "name": "Tathagata Das",
+      "role": "Percussionist",
+      "image_path": "/media/member/1000149695.jpg",
+      "socials": {
+        "facebook": null,
+        "instagram": null
+      },
+      "updatedAt": "2026-09-30T19:20:09.574Z",
+      "createdAt": "2026-09-28T18:43:32.624Z"
+    },
+    {
+      "id": 8,
+      "name": "Gourab Roy",
+      "role": "Octapadist",
+      "image_path": "/media/member/1000149688.png",
+      "socials": {
+        "facebook": null,
+        "instagram": null
+      },
+      "updatedAt": "2026-09-28T18:59:08.421Z",
+      "createdAt": "2026-09-28T18:41:32.740Z"
+    },
+    {
+      "id": 7,
+      "name": "Biprajit Bose",
+      "role": "Keyboardist",
+      "image_path": "/media/member/1000154673.jpg",
+      "socials": {
+        "facebook": null,
+        "instagram": null
+      },
+      "updatedAt": "2026-09-30T19:20:10.109Z",
+      "createdAt": "2026-09-28T18:40:55.731Z"
+    },
+    {
+      "id": 6,
+      "name": "Ashutosh Saha",
+      "role": "Lead Guitarist",
+      "image_path": "/media/member/1000149691.jpg",
+      "socials": {
+        "facebook": null,
+        "instagram": null
+      },
+      "updatedAt": "2026-09-30T19:20:10.649Z",
+      "createdAt": "2026-09-28T18:39:53.893Z"
+    },
+    {
+      "id": 5,
+      "name": "Koushik Debnath ",
+      "role": "Bass Guitarist",
+      "image_path": "/media/member/1000149692.png",
+      "socials": {
+        "facebook": null,
+        "instagram": null
+      },
+      "updatedAt": "2026-09-30T19:20:11.189Z",
+      "createdAt": "2026-09-28T18:38:50.275Z"
+    }
+  ],
+  "roles": [
+    {
+      "id": 8,
+      "title": "Drummer",
+      "generateSlug": false,
+      "slug": "drummer",
+      "description": "Acoustic drum kit, live tempo control, rhythmic foundation, and dynamic band drive.",
+      "order": 8,
+      "isActive": true,
+      "updatedAt": "2026-09-30T19:21:20.973Z",
+      "createdAt": "2026-09-30T19:21:20.973Z"
+    },
+    {
+      "id": 7,
+      "title": "Bass Guitarist",
+      "generateSlug": false,
+      "slug": "bass-guitarist",
+      "description": "Bass lines, low-end groove, rhythm stabilization, and band pulse.",
+      "order": 7,
+      "isActive": true,
+      "updatedAt": "2026-09-30T19:21:20.413Z",
+      "createdAt": "2026-09-30T19:21:20.413Z"
+    },
+    {
+      "id": 6,
+      "title": "Lead Guitarist",
+      "generateSlug": false,
+      "slug": "lead-guitarist",
+      "description": "Electric guitar riffs, lead solos, and melodic improvisation.",
+      "order": 6,
+      "isActive": true,
+      "updatedAt": "2026-09-30T19:21:19.849Z",
+      "createdAt": "2026-09-30T19:21:19.849Z"
+    },
+    {
+      "id": 5,
+      "title": "Keyboardist",
+      "generateSlug": false,
+      "slug": "keyboardist",
+      "description": "Synthesizer, piano melodies, chord progressions, and harmonic soundscapes.",
+      "order": 5,
+      "isActive": true,
+      "updatedAt": "2026-09-30T19:21:19.286Z",
+      "createdAt": "2026-09-30T19:21:19.286Z"
+    },
+    {
+      "id": 4,
+      "title": "Octapadist",
+      "generateSlug": false,
+      "slug": "octapadist",
+      "description": "Electronic percussion, digital sampling, and rhythm sequencing on digital octapad.",
+      "order": 4,
+      "isActive": true,
+      "updatedAt": "2026-09-30T19:21:18.724Z",
+      "createdAt": "2026-09-30T19:21:18.724Z"
+    },
+    {
+      "id": 3,
+      "title": "Percussionist",
+      "generateSlug": false,
+      "slug": "percussionist",
+      "description": "Acoustic and traditional percussion instruments, beats, and rhythmic dynamics.",
+      "order": 3,
+      "isActive": true,
+      "updatedAt": "2026-09-30T19:21:18.163Z",
+      "createdAt": "2026-09-30T19:21:18.163Z"
+    },
+    {
+      "id": 2,
+      "title": "Vocalist",
+      "generateSlug": false,
+      "slug": "vocalist",
+      "description": "Lead and backing vocal performances across classical, Bollywood, and modern music.",
+      "order": 2,
+      "isActive": true,
+      "updatedAt": "2026-09-30T19:21:17.602Z",
+      "createdAt": "2026-09-30T19:21:17.602Z"
+    },
+    {
+      "id": 1,
+      "title": "Management",
+      "generateSlug": false,
+      "slug": "management",
+      "description": "Band management, booking coordination, event logistics, and artist relations.",
+      "order": 1,
+      "isActive": true,
+      "updatedAt": "2026-09-30T19:21:17.025Z",
+      "createdAt": "2026-09-30T19:21:17.023Z"
+    }
+  ]
+}

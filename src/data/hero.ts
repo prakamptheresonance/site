@@ -12,7 +12,6 @@ export const HERO_CONTENT = {
   titlePrefix: SITE_CONFIG.brand.name,
   titleHighlight: SITE_CONFIG.brand.highlight,
   slogan: SITE_CONFIG.brand.slogan,
-  description: SITE_CONFIG.brand.bio,
   actions: {
     primary: {
       label: SITE_CONFIG.ctas.bookEvent,

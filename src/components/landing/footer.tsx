@@ -5,17 +5,20 @@ import { FaMusic, FaShieldAlt } from 'react-icons/fa'
 import { GiSoundWaves } from 'react-icons/gi'
 import type { CleanContact } from '@/lib/data'
 import { getContactSocialLinks } from '@/data/socials'
-import { FOOTER_NAV_LINKS } from '@/data/navigation'
+import { getFooterNavLinks } from '@/data/navigation'
 import { SITE_CONFIG } from '@/data/site'
 import { SocialButton } from '@/components/ui/social-button'
 
 interface FooterProps {
   contact: CleanContact
+  genreCount?: number
+  footerBio?: string
 }
 
-export function Footer({ contact }: FooterProps) {
+export function Footer({ contact, genreCount, footerBio }: FooterProps) {
   const currentYear = new Date().getFullYear()
   const socialLinks = getContactSocialLinks(contact)
+  const navLinks = getFooterNavLinks(genreCount)
 
   return (
     <footer className="border-t border-neutral-800 bg-neutral-950 text-neutral-400 pt-16 pb-12 relative overflow-hidden">
@@ -27,7 +30,7 @@ export function Footer({ contact }: FooterProps) {
           {/* Col 1: Brand & Slogan */}
           <div className="md:col-span-2">
             <div className="flex items-center gap-3 mb-4">
-              <div className="w-9 h-9 rounded-full bg-amber-500 flex items-center justify-center text-black font-extrabold shadow-md shadow-amber-500/20">
+              <div className="w-9 h-9 shrink-0 rounded-full bg-amber-500 flex items-center justify-center text-black font-extrabold shadow-md shadow-amber-500/20">
                 <FaMusic className="w-4 h-4" />
               </div>
               <span className="font-extrabold text-2xl tracking-wider text-white font-heading">
@@ -35,9 +38,11 @@ export function Footer({ contact }: FooterProps) {
               </span>
             </div>
 
-            <p className="text-sm text-neutral-400 max-w-md leading-relaxed mb-4">
-              {SITE_CONFIG.brand.footerBio}
-            </p>
+            {footerBio && (
+              <p className="text-sm text-neutral-400 max-w-md leading-relaxed mb-4">
+                {footerBio}
+              </p>
+            )}
 
             <p className="text-xs text-amber-400/90 font-semibold tracking-wider uppercase">
               {SITE_CONFIG.brand.slogan}
@@ -50,7 +55,7 @@ export function Footer({ contact }: FooterProps) {
               Navigation
             </h4>
             <ul className="space-y-2 text-xs">
-              {FOOTER_NAV_LINKS.map((link) => (
+              {navLinks.map((link) => (
                 <li key={link.href}>
                   <a href={link.href} className="hover:text-amber-400 transition-colors">
                     {link.label}

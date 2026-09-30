@@ -13,6 +13,7 @@ import { SocialButton } from '@/components/ui/social-button'
 
 interface MembersSectionProps {
   members: CleanMember[]
+  subtitle?: string
 }
 
 const containerVariants: Variants = {
@@ -39,7 +40,7 @@ const itemVariants: Variants = {
   },
 }
 
-export function MembersSection({ members }: MembersSectionProps) {
+export function MembersSection({ members, subtitle }: MembersSectionProps) {
   if (!members || members.length === 0) {
     return null
   }
@@ -47,7 +48,7 @@ export function MembersSection({ members }: MembersSectionProps) {
   return (
     <section id="members" className="py-24 relative bg-black/80 overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <SectionHeading headerData={SITE_CONFIG.sections.members} />
+        <SectionHeading headerData={SITE_CONFIG.sections.members} subtitle={subtitle} />
 
         {/* Member Cards Grid with Staggered Entrance */}
         <motion.div

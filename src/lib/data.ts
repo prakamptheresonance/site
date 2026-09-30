@@ -1,12 +1,39 @@
 import configPromise from '@payload-config'
 import { getPayload } from 'payload'
-import type { Contact, Media, Member, SiteSetting } from '@/payload-types'
+import type { Contact, Genre, Media, Member, MemberRole, Occasion, SiteSetting } from '@/payload-types'
+
+export interface CleanMemberRole {
+  id: string | number
+  title: string
+  slug: string
+  description?: string
+  order?: number
+}
+
+export interface CleanOccasion {
+  id: string | number
+  title: string
+  icon: string
+  accent: string
+  bullets: string[]
+  order?: number
+}
+
+export interface CleanGenre {
+  id: string | number
+  title: string
+  icon: string
+  accent: string
+  order?: number
+}
 
 export interface CleanMember {
   id: string | number
   name: string
   role: string
+  roleSlug?: string
   imageUrl?: string
+  order?: number
   socials?: {
     facebook?: string | null
     instagram?: string | null
@@ -38,6 +65,13 @@ export async function getMembersData(): Promise<CleanMember[]> {
     const payload = await getPayload({ config: configPromise })
     const result = await payload.find({
       collection: 'members',
+      where: {
+        isActive: {
+          equals: true,
+        },
+      },
+      sort: 'order',
+      depth: 1,
       limit: 100,
     })
 
@@ -52,11 +86,25 @@ export async function getMembersData(): Promise<CleanMember[]> {
         (doc as any).imageUrl ||
         ''
 
+      const roleTitle =
+        typeof doc.role === 'object' && doc.role !== null
+          ? (doc.role as any).title || ''
+          : typeof doc.role === 'string'
+            ? doc.role
+            : ''
+
+      const roleSlug =
+        typeof doc.role === 'object' && doc.role !== null
+          ? (doc.role as any).slug || undefined
+          : undefined
+
       return {
         id: doc.id,
         name: doc.name,
-        role: doc.role,
+        role: roleTitle,
+        roleSlug,
         imageUrl: imageUrl || undefined,
+        order: doc.order ?? 0,
         socials: doc.socials || undefined,
       }
     })
@@ -138,6 +186,13 @@ export interface CleanSiteSettings {
   ogDescription?: string
   twitterHandle?: string
   twitterCard?: 'summary_large_image' | 'summary'
+  heroDescription?: string
+  genreDescription?: string
+  galleryDescription?: string
+  membersDescription?: string
+  occasionsDescription?: string
+  contactDescription?: string
+  footerDescription?: string
 }
 
 export async function getSiteSettingsData(): Promise<CleanSiteSettings> {
@@ -177,6 +232,13 @@ export async function getSiteSettingsData(): Promise<CleanSiteSettings> {
         ogDescription: result.ogDescription || undefined,
         twitterHandle: result.twitterHandle || undefined,
         twitterCard: (result.twitterCard as any) || undefined,
+        heroDescription: result.heroDescription || undefined,
+        genreDescription: result.genreDescription || undefined,
+        galleryDescription: result.galleryDescription || undefined,
+        membersDescription: result.membersDescription || undefined,
+        occasionsDescription: result.occasionsDescription || undefined,
+        contactDescription: result.contactDescription || undefined,
+        footerDescription: result.footerDescription || undefined,
       }
     }
   } catch (error: any) {
@@ -187,6 +249,117 @@ export async function getSiteSettingsData(): Promise<CleanSiteSettings> {
   }
 
   return {}
+}
+
+export async function getGenresData(): Promise<CleanGenre[]> {
+  try {
+    const payload = await getPayload({ config: configPromise })
+    const result = await payload.find({
+      collection: 'genres',
+      where: {
+        isActive: {
+          equals: true,
+        },
+      },
+      sort: 'order',
+      limit: 100,
+    })
+
+    if (!result || !result.docs || result.docs.length === 0) {
+      return []
+    }
+
+    return result.docs.map((doc: Genre) => ({
+      id: doc.id,
+      title: doc.title,
+      icon: doc.icon || 'FaMusic',
+      accent: doc.accent || 'from-amber-500/20 to-amber-700/10',
+      order: doc.order ?? 0,
+    }))
+  } catch (error: any) {
+    const errCode = error?.code || error?.cause?.code
+    if (errCode !== '42P01' && errCode !== '42703') {
+      console.error('[Payload Data] Error loading genres:', error)
+    }
+    return []
+  }
+}
+
+export async function getOccasionsData(): Promise<CleanOccasion[]> {
+  try {
+    const payload = await getPayload({ config: configPromise })
+    const result = await payload.find({
+      collection: 'occasions',
+      where: {
+        isActive: {
+          equals: true,
+        },
+      },
+      sort: 'order',
+      limit: 100,
+    })
+
+    if (!result || !result.docs || result.docs.length === 0) {
+      return []
+    }
+
+    return result.docs.map((doc: Occasion) => {
+      const bulletsList: string[] = Array.isArray(doc.bullets)
+        ? doc.bullets
+            .map((b: any) => (typeof b === 'object' && b !== null ? b.point : b))
+            .filter(Boolean)
+        : []
+
+      return {
+        id: doc.id,
+        title: doc.title,
+        icon: doc.icon || 'GiMusicalNotes',
+        accent: doc.accent || 'from-amber-500/20 to-amber-700/10',
+        bullets: bulletsList,
+        order: doc.order ?? 0,
+      }
+    })
+  } catch (error: any) {
+    const errCode = error?.code || error?.cause?.code
+    if (errCode !== '42P01' && errCode !== '42703') {
+      console.error('[Payload Data] Error loading occasions:', error)
+    }
+    return []
+  }
+}
+
+export async function getMemberRolesData(): Promise<CleanMemberRole[]> {
+  try {
+    const payload = await getPayload({ config: configPromise })
+    const result = await payload.find({
+      collection: 'member-roles',
+      where: {
+        isActive: {
+          equals: true,
+        },
+      },
+      sort: 'order',
+      limit: 100,
+    })
+
+    if (!result || !result.docs || result.docs.length === 0) {
+      return []
+    }
+
+    return result.docs.map((doc: MemberRole) => ({
+      id: doc.id,
+      title: doc.title,
+      slug: doc.slug,
+      description: doc.description || undefined,
+      order: doc.order ?? 0,
+    }))
+  } catch (error: any) {
+    const errCode = error?.code || error?.cause?.code
+    if (errCode !== '42P01' && errCode !== '42703') {
+      console.error('[Payload Data] Error loading member roles:', error)
+    }
+    return []
+  }
 }
 
 export type { SocialLinkItem } from '@/data/socials'

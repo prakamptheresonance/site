@@ -9,21 +9,29 @@ import {
 } from 'react-icons/fa'
 import { GiSoundWaves } from 'react-icons/gi'
 import { SoundwaveVisualizer } from '@/components/ui/soundwave-visualizer'
-import { HERO_STATS } from '@/data/stats'
+import { getHeroStats } from '@/data/stats'
 import { HERO_CONTENT } from '@/data/hero'
 
 interface HeroProps {
   whatsappNumber?: string
   whatsappPrompt?: string
+  genreCount?: number
+  description?: string
 }
 
-export function Hero({ whatsappNumber, whatsappPrompt }: HeroProps) {
+export function Hero({
+  whatsappNumber,
+  whatsappPrompt,
+  genreCount,
+  description,
+}: HeroProps) {
   const cleanNumber = (whatsappNumber || '').replace(/[^0-9]/g, '')
   const message = encodeURIComponent(
     whatsappPrompt ||
       'Hello Prakamp! I would like to inquire about booking your band for an upcoming event.',
   )
   const waUrl = cleanNumber ? `https://wa.me/${cleanNumber}?text=${message}` : '#contact'
+  const heroStats = getHeroStats(genreCount)
 
   return (
     <section className="relative min-h-[95vh] flex items-center justify-center pt-28 pb-20 overflow-hidden">
@@ -90,14 +98,16 @@ export function Hero({ whatsappNumber, whatsappPrompt }: HeroProps) {
         </motion.p>
 
         {/* Descriptive Summary */}
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.35, ease: 'easeOut' }}
-          className="max-w-3xl mx-auto text-base sm:text-lg md:text-xl text-neutral-300 leading-relaxed font-normal mb-8"
-        >
-          {HERO_CONTENT.description}
-        </motion.p>
+        {description && (
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.35, ease: 'easeOut' }}
+            className="max-w-3xl mx-auto text-base sm:text-lg md:text-xl text-neutral-300 leading-relaxed font-normal mb-8"
+          >
+            {description}
+          </motion.p>
+        )}
 
         {/* Animated Soundwave Visualizer */}
         <motion.div
@@ -152,7 +162,7 @@ export function Hero({ whatsappNumber, whatsappPrompt }: HeroProps) {
           transition={{ duration: 0.8, delay: 0.65 }}
           className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 max-w-4xl mx-auto pt-6 border-t border-neutral-800/80"
         >
-          {HERO_STATS.map((stat) => (
+          {heroStats.map((stat) => (
             <div key={stat.label} className="glass-panel p-3.5 rounded-xl text-center">
               <div className="text-amber-400 font-black text-xl sm:text-2xl font-heading">
                 {stat.value}
