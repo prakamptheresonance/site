@@ -2,15 +2,13 @@
 
 import React from 'react'
 import { motion } from 'framer-motion'
-import {
-  FaWhatsapp,
-  FaCalendarAlt,
-  FaMapMarkerAlt,
-} from 'react-icons/fa'
+import { FaWhatsapp, FaCalendarAlt, FaMapMarkerAlt } from 'react-icons/fa'
 import { GiSoundWaves } from 'react-icons/gi'
 import { SoundwaveVisualizer } from '@/components/ui/soundwave-visualizer'
 import { getHeroStats } from '@/data/stats'
 import { HERO_CONTENT } from '@/data/hero'
+import logo from '@/../public/prakamp-logo.png'
+import Image from 'next/image'
 
 interface HeroProps {
   whatsappNumber?: string
@@ -19,12 +17,7 @@ interface HeroProps {
   description?: string
 }
 
-export function Hero({
-  whatsappNumber,
-  whatsappPrompt,
-  genreCount,
-  description,
-}: HeroProps) {
+export function Hero({ whatsappNumber, whatsappPrompt, genreCount, description }: HeroProps) {
   const cleanNumber = (whatsappNumber || '').replace(/[^0-9]/g, '')
   const message = encodeURIComponent(
     whatsappPrompt ||
@@ -40,8 +33,7 @@ export function Hero({
         {/* Amber Stage Spotlight */}
         <motion.div
           animate={{
-            scale: [1, 1.15, 1],
-            opacity: [0.15, 0.25, 0.15],
+            opacity: [0.15, 0.22, 0.15],
           }}
           transition={{ duration: 7, repeat: Infinity, ease: 'easeInOut' }}
           className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[650px] h-[650px] bg-amber-500/20 rounded-full blur-[140px]"
@@ -50,8 +42,7 @@ export function Hero({
         {/* Deep Violet Ambient Fill */}
         <motion.div
           animate={{
-            scale: [1.1, 1, 1.1],
-            opacity: [0.1, 0.18, 0.1],
+            opacity: [0.1, 0.16, 0.1],
           }}
           transition={{ duration: 9, repeat: Infinity, ease: 'easeInOut' }}
           className="absolute top-1/3 left-1/4 w-[500px] h-[500px] bg-purple-700/15 rounded-full blur-[160px]"
@@ -67,7 +58,7 @@ export function Hero({
       <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center z-10">
         {/* Animated Location Badge */}
         <motion.div
-          initial={{ opacity: 0, y: -20 }}
+          initial={{ opacity: 0, y: -12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, ease: 'easeOut' }}
           className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/20 text-amber-300 text-xs sm:text-sm font-semibold tracking-wide uppercase mb-6"
@@ -77,19 +68,18 @@ export function Hero({
         </motion.div>
 
         {/* Main Band Title with Cinematic Entrance */}
-        <motion.h1
-          initial={{ opacity: 0, scale: 0.92, y: 20 }}
-          animate={{ opacity: 1, scale: 1, y: 0 }}
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.1, ease: 'easeOut' }}
-          className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-black tracking-tight text-white uppercase leading-[1.05] mb-4"
+          className="mb-4"
         >
-          {HERO_CONTENT.titlePrefix} <br />
-          <span className="text-gold-gradient text-glow-amber">{HERO_CONTENT.titleHighlight}</span>
-        </motion.h1>
+          <Image src={logo} alt="Prakamp Logo" />
+        </motion.div>
 
         {/* Band Slogan */}
         <motion.p
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.25, ease: 'easeOut' }}
           className="text-lg sm:text-2xl md:text-3xl font-semibold text-amber-400/95 tracking-wider uppercase mb-6"
@@ -100,7 +90,7 @@ export function Hero({
         {/* Descriptive Summary */}
         {description && (
           <motion.p
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.35, ease: 'easeOut' }}
             className="max-w-3xl mx-auto text-base sm:text-lg md:text-xl text-neutral-300 leading-relaxed font-normal mb-8"
@@ -111,9 +101,9 @@ export function Hero({
 
         {/* Animated Soundwave Visualizer */}
         <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.7, delay: 0.45 }}
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, delay: 0.45, ease: 'easeOut' }}
           className="flex items-center justify-center gap-3 mb-10 h-16"
         >
           <GiSoundWaves className="w-7 h-7 text-amber-400/80 hidden sm:block" />
@@ -123,9 +113,9 @@ export function Hero({
 
         {/* Action Buttons */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.55 }}
+          transition={{ duration: 0.7, delay: 0.55, ease: 'easeOut' }}
           className="flex flex-wrap items-center justify-center gap-4 sm:gap-5 mb-14"
         >
           {/* WhatsApp Primary Booking */}
@@ -134,9 +124,8 @@ export function Hero({
               href={waUrl}
               target="_blank"
               rel="noopener noreferrer"
-              whileHover={{ scale: 1.04 }}
-              whileTap={{ scale: 0.97 }}
-              className="flex items-center gap-3 px-8 py-3.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-sm sm:text-base tracking-wide shadow-lg shadow-emerald-600/25 transition-all"
+              whileTap={{ scale: 0.98 }}
+              className="flex items-center gap-3 px-8 py-3.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-sm sm:text-base tracking-wide shadow-lg shadow-emerald-600/25 transition-all hover:brightness-105"
             >
               <FaWhatsapp className="w-5 h-5" />
               <span>Book via WhatsApp</span>
@@ -146,9 +135,8 @@ export function Hero({
           {/* Event Inquiry CTA */}
           <motion.a
             href={HERO_CONTENT.actions.primary.href}
-            whileHover={{ scale: 1.04 }}
-            whileTap={{ scale: 0.97 }}
-            className="flex items-center gap-2 px-8 py-3.5 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-black font-extrabold text-sm sm:text-base tracking-wide shadow-lg shadow-amber-500/20 transition-all"
+            whileTap={{ scale: 0.98 }}
+            className="flex items-center gap-2 px-8 py-3.5 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-black font-extrabold text-sm sm:text-base tracking-wide shadow-lg shadow-amber-500/20 transition-all hover:brightness-105"
           >
             <FaCalendarAlt className="w-4 h-4" />
             <span>{HERO_CONTENT.actions.primary.label}</span>

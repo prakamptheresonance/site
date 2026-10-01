@@ -19,24 +19,14 @@ export function GlassCard({
 }: GlassCardProps) {
   return (
     <motion.div
-      whileHover={
-        hoverGlow
-          ? {
-              y: -5,
-              transition: { duration: 0.25, ease: 'easeOut' },
-            }
-          : undefined
-      }
       className={`glass-panel rounded-2xl relative overflow-hidden transition-all duration-300 ${
-        hoverGlow
-          ? 'hover:border-amber-500/40 hover:shadow-xl hover:shadow-amber-500/10'
-          : ''
+        hoverGlow ? 'hover:border-amber-500/40 hover:shadow-xl hover:shadow-amber-500/10' : ''
       } ${className}`}
       {...props}
     >
       {accentGradient && (
         <div
-          className={`absolute -top-12 -right-12 w-36 h-36 bg-gradient-to-br ${accentGradient} rounded-full blur-2xl pointer-events-none opacity-60 group-hover:scale-150 transition-transform duration-500`}
+          className={`absolute -top-12 -right-12 w-36 h-36 bg-gradient-to-br ${accentGradient} rounded-full blur-2xl pointer-events-none opacity-40 group-hover:opacity-75 transition-opacity duration-500`}
         />
       )}
       {children}

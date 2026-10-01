@@ -64,9 +64,8 @@ export function SocialButton({
       href={href}
       target="_blank"
       rel="noopener noreferrer"
-      whileHover={{ scale: 1.12 }}
-      whileTap={{ scale: 0.95 }}
-      transition={{ type: 'spring', stiffness: 400, damping: 17 }}
+      whileTap={{ scale: 0.98 }}
+      transition={{ duration: 0.15 }}
       className={`rounded-xl bg-neutral-900 border border-neutral-800 flex items-center justify-center text-neutral-300 transition-colors shadow-md ${hoverClass} ${sizeClasses} ${className}`}
       aria-label={ariaLabel}
       title={ariaLabel}

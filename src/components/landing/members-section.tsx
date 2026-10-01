@@ -28,11 +28,10 @@ const containerVariants: Variants = {
 }
 
 const itemVariants: Variants = {
-  hidden: { opacity: 0, y: 30, scale: 0.96 },
+  hidden: { opacity: 0, y: 20 },
   visible: {
     opacity: 1,
     y: 0,
-    scale: 1,
     transition: {
       duration: 0.5,
       ease: 'easeOut',
@@ -65,14 +64,14 @@ export function MembersSection({ members, subtitle }: MembersSectionProps) {
               <motion.div key={member.id} variants={itemVariants}>
                 <GlassCard className="flex flex-col group border border-neutral-800/80 overflow-hidden">
                   {/* Member Portrait - Clean & Unobstructed */}
-                  <div className="relative aspect-[4/5] w-full overflow-hidden bg-neutral-900">
+                  <div className="relative aspect-9/16 w-full overflow-hidden bg-neutral-900">
                     {member.imageUrl ? (
                       <Image
                         src={member.imageUrl}
                         alt={member.name}
                         fill
                         sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                        className="object-cover object-center group-hover:scale-105 transition-transform duration-500"
+                        className="object-cover object-center group-hover:scale-[1.02] transition-transform duration-700 ease-out"
                       />
                     ) : (
                       <div className="w-full h-full flex flex-col items-center justify-center text-neutral-600 bg-neutral-900">

@@ -65,27 +65,23 @@ export function MediaCarousel({ media, subtitle }: MediaCarouselProps) {
 
   const slideVariants = {
     enter: (direction: number) => ({
-      x: direction > 0 ? 300 : -300,
+      x: direction > 0 ? 120 : -120,
       opacity: 0,
-      scale: 0.96,
     }),
     center: {
       x: 0,
       opacity: 1,
-      scale: 1,
       transition: {
         x: { type: 'spring' as const, stiffness: 300, damping: 30 },
-        opacity: { duration: 0.4 },
-        scale: { duration: 0.4 },
+        opacity: { duration: 0.35 },
       },
     },
     exit: (direction: number) => ({
-      x: direction < 0 ? 300 : -300,
+      x: direction < 0 ? 120 : -120,
       opacity: 0,
-      scale: 0.96,
       transition: {
         x: { type: 'spring' as const, stiffness: 300, damping: 30 },
-        opacity: { duration: 0.3 },
+        opacity: { duration: 0.25 },
       },
     }),
   }
@@ -95,8 +91,7 @@ export function MediaCarousel({ media, subtitle }: MediaCarouselProps) {
       {/* Background Stage Lighting */}
       <motion.div
         animate={{
-          scale: [1, 1.2, 1],
-          opacity: [0.08, 0.15, 0.08],
+          opacity: [0.08, 0.14, 0.08],
         }}
         transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
         className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[500px] bg-amber-600/15 rounded-full blur-[160px] pointer-events-none"
@@ -114,29 +109,26 @@ export function MediaCarousel({ media, subtitle }: MediaCarouselProps) {
           {/* Autoplay & Navigation Controls */}
           <div className="flex items-center gap-3 mt-6 md:mt-0">
             <motion.button
-              whileHover={{ scale: 1.08 }}
-              whileTap={{ scale: 0.92 }}
+              whileTap={{ scale: 0.97 }}
               onClick={() => setIsPlaying(!isPlaying)}
-              className="p-3.5 rounded-full glass-panel text-neutral-300 hover:text-amber-400 hover:border-amber-500/40 transition-all text-xs"
+              className="p-3.5 rounded-full glass-panel text-neutral-300 hover:text-amber-400 hover:border-amber-500/40 transition-colors text-xs"
               title={isPlaying ? 'Pause slideshow' : 'Play slideshow'}
               aria-label={isPlaying ? 'Pause slideshow' : 'Play slideshow'}
             >
               {isPlaying ? <FaPause className="w-3.5 h-3.5" /> : <FaPlay className="w-3.5 h-3.5" />}
             </motion.button>
             <motion.button
-              whileHover={{ scale: 1.08 }}
-              whileTap={{ scale: 0.92 }}
+              whileTap={{ scale: 0.97 }}
               onClick={prevSlide}
-              className="p-3.5 rounded-full glass-panel text-neutral-300 hover:text-amber-400 hover:border-amber-500/40 transition-all"
+              className="p-3.5 rounded-full glass-panel text-neutral-300 hover:text-amber-400 hover:border-amber-500/40 transition-colors"
               aria-label="Previous image"
             >
               <FaChevronLeft className="w-4 h-4" />
             </motion.button>
             <motion.button
-              whileHover={{ scale: 1.08 }}
-              whileTap={{ scale: 0.92 }}
+              whileTap={{ scale: 0.97 }}
               onClick={nextSlide}
-              className="p-3.5 rounded-full glass-panel text-neutral-300 hover:text-amber-400 hover:border-amber-500/40 transition-all"
+              className="p-3.5 rounded-full glass-panel text-neutral-300 hover:text-amber-400 hover:border-amber-500/40 transition-colors"
               aria-label="Next image"
             >
               <FaChevronRight className="w-4 h-4" />
@@ -169,7 +161,7 @@ export function MediaCarousel({ media, subtitle }: MediaCarouselProps) {
                 fill
                 priority
                 sizes="(max-width: 1200px) 100vw, 1200px"
-                className="object-cover object-center transition-transform duration-700 ease-out group-hover:scale-105"
+                className="object-cover object-center transition-transform duration-700 ease-out group-hover:scale-[1.02]"
               />
 
               {/* Cinematic Vignette Overlay */}
@@ -209,15 +201,14 @@ export function MediaCarousel({ media, subtitle }: MediaCarouselProps) {
           {items.map((item, idx) => (
             <motion.button
               key={item.id}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
+              whileTap={{ scale: 0.98 }}
               onClick={() => {
                 setDirection(idx > currentIndex ? 1 : -1)
                 setCurrentIndex(idx)
               }}
               className={`relative flex-shrink-0 w-20 sm:w-28 aspect-[16/10] rounded-xl overflow-hidden border-2 transition-all ${
                 idx === currentIndex
-                  ? 'border-amber-400 shadow-lg shadow-amber-500/30 scale-105 opacity-100'
+                  ? 'border-amber-400 shadow-md shadow-amber-500/20 opacity-100 ring-2 ring-amber-400/40'
                   : 'border-transparent opacity-50 hover:opacity-85'
               }`}
               aria-label={`Jump to image ${idx + 1}`}

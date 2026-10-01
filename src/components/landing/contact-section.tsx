@@ -64,9 +64,8 @@ export function ContactSection({ contact, subtitle }: ContactSectionProps) {
                 href={waData.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                whileHover={{ scale: 1.04 }}
-                whileTap={{ scale: 0.96 }}
-                className="inline-flex items-center justify-center gap-2.5 px-7 py-3.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-extrabold text-sm tracking-wide shadow-lg shadow-emerald-600/25 transition-all flex-shrink-0"
+                whileTap={{ scale: 0.98 }}
+                className="inline-flex items-center justify-center gap-2.5 px-7 py-3.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 hover:brightness-105 text-white font-extrabold text-sm tracking-wide shadow-lg shadow-emerald-600/25 transition-all flex-shrink-0"
               >
                 <FaWhatsapp className="w-5 h-5" />
                 <span>{waData.actionLabel}</span>
