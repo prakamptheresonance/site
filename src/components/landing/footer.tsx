@@ -1,7 +1,13 @@
 'use client'
 
-import React from 'react'
-import { FaMusic, FaShieldAlt } from 'react-icons/fa'
+import {
+  FaMusic,
+  FaShieldAlt,
+  FaGithub,
+  FaLinkedin,
+  FaInstagram,
+  FaEnvelope,
+} from 'react-icons/fa'
 import { GiSoundWaves } from 'react-icons/gi'
 import type { CleanContact } from '@/lib/data'
 import { getContactSocialLinks } from '@/data/socials'
@@ -86,18 +92,79 @@ export function Footer({ contact, genreCount, footerBio }: FooterProps) {
           </div>
         </div>
 
-        {/* Bottom Credits */}
-        <div className="pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-neutral-500 gap-4">
-          <div className="flex items-center gap-2">
+        {/* Bottom Credits & Developer Attribution */}
+        <div className="pt-8 border-t border-neutral-900/80 flex flex-col md:flex-row items-center justify-between text-xs text-neutral-500 gap-4">
+          <div className="flex flex-wrap items-center justify-center md:justify-start gap-2">
             <GiSoundWaves className="w-4 h-4 text-amber-500/80" />
             <span>
               &copy; {currentYear} {SITE_CONFIG.brand.fullName}. All rights reserved.
             </span>
+            <span className="hidden sm:inline text-neutral-700">•</span>
+            <span className="text-neutral-400">
+              {SITE_CONFIG.brand.credits}{' '}
+              <span className="text-amber-400/90 font-medium">{SITE_CONFIG.brand.location}</span>
+            </span>
           </div>
 
-          <div className="flex items-center gap-1">
-            <span>{SITE_CONFIG.brand.credits}</span>
-            <span className="text-amber-400 font-semibold">{SITE_CONFIG.brand.location}</span>
+          {/* Developer Attribution Badge */}
+          <div className="inline-flex items-center gap-2.5 text-neutral-400 bg-neutral-900/60 border border-neutral-800/80 px-3.5 py-1.5 rounded-full shadow-inner text-[11px]">
+            <span>
+              Crafted by{' '}
+              <span className="text-white font-semibold tracking-wide">
+                {SITE_CONFIG.developer.name}
+              </span>
+            </span>
+
+            <div className="h-3 w-px bg-neutral-800" />
+
+            <div className="flex items-center gap-2 text-neutral-400">
+              {SITE_CONFIG.developer.github && (
+                <a
+                  href={SITE_CONFIG.developer.github}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-white transition-colors"
+                  aria-label={`${SITE_CONFIG.developer.name} on GitHub`}
+                  title="GitHub Profile"
+                >
+                  <FaGithub className="w-3.5 h-3.5" />
+                </a>
+              )}
+              {SITE_CONFIG.developer.linkedin && (
+                <a
+                  href={SITE_CONFIG.developer.linkedin}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-[#0a66c2] transition-colors"
+                  aria-label={`${SITE_CONFIG.developer.name} on LinkedIn`}
+                  title="LinkedIn Profile"
+                >
+                  <FaLinkedin className="w-3.5 h-3.5" />
+                </a>
+              )}
+              {SITE_CONFIG.developer.instagram && (
+                <a
+                  href={SITE_CONFIG.developer.instagram}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-[#e4405f] transition-colors"
+                  aria-label={`${SITE_CONFIG.developer.name} on Instagram`}
+                  title="Instagram Profile"
+                >
+                  <FaInstagram className="w-3.5 h-3.5" />
+                </a>
+              )}
+              {SITE_CONFIG.developer.email && (
+                <a
+                  href={`mailto:${SITE_CONFIG.developer.email}`}
+                  className="hover:text-amber-400 transition-colors"
+                  aria-label={`Email ${SITE_CONFIG.developer.name}`}
+                  title={`Email: ${SITE_CONFIG.developer.email}`}
+                >
+                  <FaEnvelope className="w-3.5 h-3.5" />
+                </a>
+              )}
+            </div>
           </div>
         </div>
       </div>

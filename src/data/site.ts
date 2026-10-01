@@ -28,6 +28,14 @@ export const SITE_CONFIG = {
     locationBadge: 'Agartala, Tripura • Live Music Band',
     credits: 'Crafted with passion in',
   },
+  developer: {
+    name: 'Debargha Saha',
+    role: 'Developer',
+    email: 'debarghasaha16@gmail.com',
+    github: 'https://github.com/DEBargha2004',
+    linkedin: 'https://linkedin.com/in/debargha-saha-07b738192',
+    instagram: 'https://instagram.com/debargha6203',
+  },
   ctas: {
     bookEvent: 'Book For Your Event',
     bookBand: 'Book Band',
