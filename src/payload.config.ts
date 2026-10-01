@@ -12,6 +12,7 @@ import { Members } from './collections/Members'
 import { Genres } from './collections/Genres'
 import { Occasions } from './collections/Occasions'
 import { MemberRoles } from './collections/MemberRoles'
+import { Groups } from './collections/Groups'
 import { Contact } from './globals/Contact'
 import { SiteSettings } from './globals/SiteSettings'
 
@@ -26,7 +27,7 @@ export default buildConfig({
     },
     suppressHydrationWarning: true,
   },
-  collections: [Users, Media, Members, Genres, Occasions, MemberRoles],
+  collections: [Users, Media, Members, Genres, Occasions, MemberRoles, Groups],
   globals: [Contact, SiteSettings],
   editor: lexicalEditor(),
   email: resendAdapter({

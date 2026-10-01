@@ -7,7 +7,6 @@ export interface CleanMemberRole {
   title: string
   slug: string
   description?: string
-  order?: number
 }
 
 export interface CleanOccasion {
@@ -27,13 +26,21 @@ export interface CleanGenre {
   order?: number
 }
 
+export interface CleanGroup {
+  id: string | number
+  title: string
+  order?: number
+  memberIds?: (string | number)[]
+}
+
 export interface CleanMember {
   id: string | number
   name: string
   role: string
   roleSlug?: string
+  group?: string
+  groupId?: string | number
   imageUrl?: string
-  order?: number
   socials?: {
     facebook?: string | null
     instagram?: string | null
@@ -70,7 +77,6 @@ export async function getMembersData(): Promise<CleanMember[]> {
           equals: true,
         },
       },
-      sort: 'order',
       depth: 1,
       limit: 100,
     })
@@ -98,13 +104,28 @@ export async function getMembersData(): Promise<CleanMember[]> {
           ? (doc.role as any).slug || undefined
           : undefined
 
+      const groupTitle =
+        typeof (doc as any).group === 'object' && (doc as any).group !== null
+          ? (doc as any).group.title || ''
+          : typeof (doc as any).group === 'string'
+            ? (doc as any).group
+            : undefined
+
+      const groupId =
+        typeof (doc as any).group === 'object' && (doc as any).group !== null
+          ? (doc as any).group.id
+          : typeof (doc as any).group === 'string' || typeof (doc as any).group === 'number'
+            ? (doc as any).group
+            : undefined
+
       return {
         id: doc.id,
         name: doc.name,
         role: roleTitle,
         roleSlug,
+        group: groupTitle || undefined,
+        groupId,
         imageUrl: imageUrl || undefined,
-        order: doc.order ?? 0,
         socials: doc.socials || undefined,
       }
     })
@@ -338,7 +359,6 @@ export async function getMemberRolesData(): Promise<CleanMemberRole[]> {
           equals: true,
         },
       },
-      sort: 'order',
       limit: 100,
     })
 
@@ -351,12 +371,46 @@ export async function getMemberRolesData(): Promise<CleanMemberRole[]> {
       title: doc.title,
       slug: doc.slug,
       description: doc.description || undefined,
-      order: doc.order ?? 0,
     }))
   } catch (error: any) {
     const errCode = error?.code || error?.cause?.code
     if (errCode !== '42P01' && errCode !== '42703') {
       console.error('[Payload Data] Error loading member roles:', error)
+    }
+    return []
+  }
+}
+
+export async function getGroupsData(): Promise<CleanGroup[]> {
+  try {
+    const payload = await getPayload({ config: configPromise })
+    const result = await payload.find({
+      collection: 'groups',
+      limit: 100,
+      depth: 0,
+      sort: 'order',
+    })
+
+    if (!result || !result.docs || result.docs.length === 0) {
+      return []
+    }
+
+    return result.docs.map((doc: any) => {
+      const memberIds = Array.isArray(doc.members)
+        ? doc.members.map((m: any) => (typeof m === 'object' && m !== null ? m.id : m))
+        : []
+
+      return {
+        id: doc.id,
+        title: doc.title,
+        order: doc.order ?? 0,
+        memberIds,
+      }
+    })
+  } catch (error: any) {
+    const errCode = error?.code || error?.cause?.code
+    if (errCode !== '42P01' && errCode !== '42703') {
+      console.error('[Payload Data] Error loading groups:', error)
     }
     return []
   }

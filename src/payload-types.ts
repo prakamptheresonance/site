@@ -73,6 +73,7 @@ export interface Config {
     genres: Genre;
     occasions: Occasion;
     'member-roles': MemberRole;
+    groups: Group;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -86,6 +87,7 @@ export interface Config {
     genres: GenresSelect<false> | GenresSelect<true>;
     occasions: OccasionsSelect<false> | OccasionsSelect<true>;
     'member-roles': MemberRolesSelect<false> | MemberRolesSelect<true>;
+    groups: GroupsSelect<false> | GroupsSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -187,11 +189,11 @@ export interface Member {
    * Select the role/specialization for this member.
    */
   role: number | MemberRole;
-  image_path: string;
   /**
-   * Order of display on the website (e.g. 1, 2, 3...). Lower numbers appear first.
+   * Select the group this member belongs to.
    */
-  order?: number | null;
+  group?: (number | null) | Group;
+  image_path: string;
   socials?: {
     /**
      * Optional Facebook profile URL or handle
@@ -226,13 +228,27 @@ export interface MemberRole {
   slug: string;
   description?: string | null;
   /**
-   * Display order priority (lower numbers appear first).
-   */
-  order?: number | null;
-  /**
    * Enable or disable this role.
    */
   isActive?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "groups".
+ */
+export interface Group {
+  id: number;
+  title: string;
+  /**
+   * Order of this group tab on the website (e.g. 1, 2, 3...). Lower numbers appear first.
+   */
+  order?: number | null;
+  /**
+   * Select members and drag the handle (≡) to arrange their display order within this group.
+   */
+  members?: (number | Member)[] | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -377,6 +393,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'member-roles';
         value: number | MemberRole;
+      } | null)
+    | ({
+        relationTo: 'groups';
+        value: number | Group;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -462,8 +482,8 @@ export interface MembersSelect<T extends boolean = true> {
   slug?: T;
   name?: T;
   role?: T;
+  group?: T;
   image_path?: T;
-  order?: T;
   socials?:
     | T
     | {
@@ -519,8 +539,18 @@ export interface MemberRolesSelect<T extends boolean = true> {
   generateSlug?: T;
   slug?: T;
   description?: T;
-  order?: T;
   isActive?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "groups_select".
+ */
+export interface GroupsSelect<T extends boolean = true> {
+  title?: T;
+  order?: T;
+  members?: T;
   updatedAt?: T;
   createdAt?: T;
 }

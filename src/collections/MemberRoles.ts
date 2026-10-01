@@ -12,7 +12,7 @@ export const MemberRoles: CollectionConfig = {
   },
   admin: {
     useAsTitle: 'title',
-    defaultColumns: ['title', 'slug', 'order', 'isActive', 'updatedAt'],
+    defaultColumns: ['title', 'slug', 'isActive', 'updatedAt'],
   },
   fields: [
     {
@@ -32,15 +32,6 @@ export const MemberRoles: CollectionConfig = {
       label: 'Description',
       admin: {
         placeholder: 'Brief summary of the role responsibilities or instrument specialization...',
-      },
-    },
-    {
-      name: 'order',
-      type: 'number',
-      label: 'Display Order',
-      defaultValue: 0,
-      admin: {
-        description: 'Display order priority (lower numbers appear first).',
       },
     },
     {

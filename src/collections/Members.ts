@@ -12,10 +12,11 @@ export const Members: CollectionConfig = {
   },
   admin: {
     useAsTitle: 'name',
-    defaultColumns: ['name', 'role', 'order', 'isActive', 'updatedAt'],
+    defaultColumns: ['name', 'role', 'group', 'isActive', 'updatedAt'],
   },
   defaultPopulate: {
     role: true,
+    group: true,
   },
   fields: [
     slugField({ useAsSlug: 'name' }),
@@ -42,6 +43,16 @@ export const Members: CollectionConfig = {
               },
             },
             {
+              name: 'group',
+              type: 'relationship',
+              relationTo: 'groups',
+              hasMany: false,
+              label: 'Group',
+              admin: {
+                description: 'Select the group this member belongs to.',
+              },
+            },
+            {
               name: 'image_path',
               type: 'text',
               required: true,
@@ -54,15 +65,6 @@ export const Members: CollectionConfig = {
                 custom: {
                   folder: '/media/member',
                 },
-              },
-            },
-            {
-              name: 'order',
-              type: 'number',
-              label: 'Display Order',
-              defaultValue: 0,
-              admin: {
-                description: 'Order of display on the website (e.g. 1, 2, 3...). Lower numbers appear first.',
               },
             },
           ],
