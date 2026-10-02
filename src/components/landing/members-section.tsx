@@ -255,7 +255,7 @@ export function MembersSection({ members, groups = [], subtitle }: MembersSectio
                       <motion.div key={member.id} variants={itemVariants}>
                         <GlassCard className="flex flex-col group border border-neutral-800/80 overflow-hidden">
                           {/* Member Portrait */}
-                          <div className="relative aspect-3/4 w-full overflow-hidden bg-neutral-900">
+                          <div className="relative aspect-7/5 w-full overflow-hidden bg-neutral-900">
                             {member.imageUrl ? (
                               <Image
                                 src={member.imageUrl}

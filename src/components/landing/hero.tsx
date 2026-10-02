@@ -86,7 +86,6 @@ export function Hero({ whatsappNumber, whatsappPrompt, genreCount, description }
         >
           {HERO_CONTENT.slogan}
         </motion.p>
-
         {/* Descriptive Summary */}
         {description && (
           <motion.p
