@@ -1,13 +1,6 @@
 'use client'
 
-import {
-  FaMusic,
-  FaShieldAlt,
-  FaGithub,
-  FaLinkedin,
-  FaInstagram,
-  FaEnvelope,
-} from 'react-icons/fa'
+import { FaMusic, FaShieldAlt, FaGithub, FaLinkedin, FaInstagram, FaEnvelope } from 'react-icons/fa'
 import { GiSoundWaves } from 'react-icons/gi'
 import type { CleanContact } from '@/lib/data'
 import { getContactSocialLinks } from '@/data/socials'
@@ -45,9 +38,7 @@ export function Footer({ contact, genreCount, footerBio }: FooterProps) {
             </div>
 
             {footerBio && (
-              <p className="text-sm text-neutral-400 max-w-md leading-relaxed mb-4">
-                {footerBio}
-              </p>
+              <p className="text-sm text-neutral-400 max-w-md leading-relaxed mb-4">{footerBio}</p>
             )}
 
             <p className="text-xs text-amber-400/90 font-semibold tracking-wider uppercase">
@@ -98,11 +89,6 @@ export function Footer({ contact, genreCount, footerBio }: FooterProps) {
             <GiSoundWaves className="w-4 h-4 text-amber-500/80" />
             <span>
               &copy; {currentYear} {SITE_CONFIG.brand.fullName}. All rights reserved.
-            </span>
-            <span className="hidden sm:inline text-neutral-700">•</span>
-            <span className="text-neutral-400">
-              {SITE_CONFIG.brand.credits}{' '}
-              <span className="text-amber-400/90 font-medium">{SITE_CONFIG.brand.location}</span>
             </span>
           </div>
 
