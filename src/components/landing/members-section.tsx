@@ -269,13 +269,13 @@ export function MembersSection({ members, groups = [], subtitle }: MembersSectio
                                 <FaUser className="w-16 h-16 opacity-30" />
                               </div>
                             )}
-                            <div className="absolute inset-0 bg-gradient-to-t from-neutral-950 via-neutral-950/20 to-transparent pointer-events-none" />
+                            {/* <div className="absolute inset-0 bg-gradient-to-t from-neutral-950 via-neutral-950/20 to-transparent pointer-events-none" /> */}
                           </div>
 
                           {/* Member Details */}
-                          <div className="p-6 flex items-center justify-between bg-neutral-950 border-t border-neutral-800/70">
+                          <div className="p-2.5 flex items-center justify-between bg-neutral-950 border-t border-neutral-800/70">
                             <div>
-                              <h3 className="text-xl font-extrabold text-white group-hover:text-amber-400 transition-colors">
+                              <h3 className="text-[24px] font-extrabold text-white group-hover:text-amber-400 transition-colors">
                                 {member.name}
                               </h3>
                               <p className="text-xs font-semibold tracking-wider text-amber-400/95 uppercase mt-1">
